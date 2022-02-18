@@ -1,6 +1,7 @@
 from setuptools import setup
 import re
 import os
+import sys
 from shutil import rmtree, copytree
 
 requirements = []
@@ -19,9 +20,18 @@ with open("README.rst", "r") as f:
     readme = f.read()
 
 # Copying module
-import site
 copyfrom = "/".join(__file__.split("/")[:-1] + ["campfire"])
-copyto = site.getsitepackages()[0] + "/campfire"
+
+try:
+    import site
+    copyto = site.getsitepackages()[0] + "/campfire"
+except (AttributeError, ModuleNotFoundError):
+    copy_to = ""
+    for path in sys.path:
+        if path.endswith("/site-packages"):
+            copy_to = path
+            break
+
 if os.path.exists(copyto):
     rmtree(copyto)
 copytree(copyfrom, copyto)
@@ -35,7 +45,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/x-rst",
     author="Camper-CoolDie",
-    author_email="campercooldie@yandex.ru",
+    author_email="campercooldie@gmail.com",
     url="https://github.com/Camper-CoolDie/campfire.py",
     license="MIT",
     classifiers=[
