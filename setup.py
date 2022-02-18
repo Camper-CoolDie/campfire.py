@@ -26,10 +26,11 @@ try:
     import site
     copyto = site.getsitepackages()[0] + "/campfire"
 except (AttributeError, ModuleNotFoundError):
+    # for virtual machines
     copyto = ""
     for path in sys.path:
         if path.endswith("/site-packages"):
-            copyto = path
+            copyto = path + "/campfire"
             break
     if not copyto:
         raise RuntimeError("site-packages not found")
