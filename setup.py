@@ -26,11 +26,13 @@ try:
     import site
     copyto = site.getsitepackages()[0] + "/campfire"
 except (AttributeError, ModuleNotFoundError):
-    copy_to = ""
+    copyto = ""
     for path in sys.path:
         if path.endswith("/site-packages"):
-            copy_to = path
+            copyto = path
             break
+    if not copyto:
+        raise RuntimeError("site-packages not found")
 
 if os.path.exists(copyto):
     rmtree(copyto)
