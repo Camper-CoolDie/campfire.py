@@ -1,6 +1,6 @@
-from ...reqs import fandoms
-from ...api import get_date
-from .. import main
+from ..reqs import fandoms
+from ..api import get_date
+from . import main
 
 class Fandom(object):
     __slots__ = (

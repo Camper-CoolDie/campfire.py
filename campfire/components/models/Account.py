@@ -1,6 +1,6 @@
-from ...reqs import account
-from ...api import get_date
-from .. import main
+from ..reqs import account
+from ..api import get_date
+from . import main
 
 class Account(object):
     __slots__ = (

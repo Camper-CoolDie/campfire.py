@@ -19,30 +19,18 @@ readme = ""
 with open("README.rst", "r") as f:
     readme = f.read()
 
-# Copying module
-copyfrom = "/".join(__file__.split("/")[:-1] + ["campfire"])
-
-try:
-    import site
-    copyto = site.getsitepackages()[0] + "/campfire"
-except (AttributeError, ModuleNotFoundError):
-    # for virtual machines
-    copyto = ""
-    for path in sys.path:
-        if path.endswith("/site-packages"):
-            copyto = path + "/campfire"
-            break
-    if not copyto:
-        raise RuntimeError("site-packages not found")
-print(copyfrom, copyto)
-if os.path.exists(copyto):
-    rmtree(copyto)
-copytree(copyfrom, copyto)
+packages = (
+    "campfire",
+    "campfire.components",
+    "campfire.components.reqs",
+    "campfire.components.models",
+    "campfire.components.models.publications"
+)
 
 setup(
     name="campfire",
     version=version,
-    packages=["campfire"],
+    packages=packages,
     install_requires=requirements,
     python_requires=">=2.7",
     description="Campfire API",
