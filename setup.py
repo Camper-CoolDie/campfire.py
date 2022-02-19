@@ -40,7 +40,7 @@ if os.path.exists(copyto):
 copytree(copyfrom, copyto)
 
 setup(
-    name="campfire.py",
+    name="campfire",
     version=version,
     install_requires=requirements,
     python_requires=">=2.7",

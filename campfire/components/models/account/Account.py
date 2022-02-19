@@ -87,45 +87,15 @@ class Account(object):
         return [ main._all["fandom"](fandom) for fandom in fandoms ]
     
     def get_activities(self, *, offset: int = 0):
-        """Get all Activities"""
-        
-        params = {
-            "accountId": self.account_id,
-            "fandomId": 0,
-            "languageId": 0,
-            "offset": int(offset),
-            "J_REQUEST_NAME": "RActivitiesGetAllForAccount"
-        }
-        content = post(params)
-        if "code" in content: return content
-        
-        return [ Activities.Activity(activity) for activity in content["userActivities"] ]
+        activities = account.get_activities(self.id, offset)
+        return [ main._all["activity"](activity) for activity in activities ]
     
     def get_rubrics(self, *, offset: int = 0):
-        """Get all Rubrics"""
-        
-        params = {
-            "fandomId": 0,
-            "languageId": 0,
-            "ownerId": self.account_id,
-            "offset": int(offset),
-            "J_REQUEST_NAME": "RRubricsGetAll"
-        }
-        content = post(params)
-        if "code" in content: return content
-        
-        return [ Rubric.Rubric(rubric) for rubric in content["rubrics"] ]
+        rubrics = account.get_rubrics(self.id, offset)
+        return [ main._all["rubric"](rubric) for rubric in rubrics ]
     
     def report(self, comment: str):
-        """Report this Account"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsReport"
-        }
-        content = post(params)
-        return content
+        return account.report(self.id, comment)
     
     def get_publications(self, lang: int = 2, offset: int = 0, count: int = 20, types: list = [1, 8, 9, 11]):
         """Get publications"""

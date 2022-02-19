@@ -106,6 +106,34 @@ def get_moderated_fandoms(account_id: int, offset: int):
     }
     return campreq(params)["fandoms"]
 
+def get_activities(account_id: int, offset: int):
+    params = {
+        "accountId": int(account_id),
+        "fandomId": 0,
+        "languageId": 0,
+        "offset": int(offset),
+        "J_REQUEST_NAME": "RActivitiesGetAllForAccount"
+    }
+    return campreq(params)["userActivities"]
+
+def get_rubrics(account_id: int, offset: int):
+    params = {
+        "fandomId": 0,
+        "languageId": 0,
+        "ownerId": int(account_id),
+        "offset": int(offset),
+        "J_REQUEST_NAME": "RRubricsGetAll"
+    }
+    return campreq(params)["rubrics"]
+
+def report(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsReport"
+    }
+    return campreq(params)
+
 # AccountEffect
 
 def admin_effect_remove(effect_id: int, comment: str):
