@@ -34,7 +34,7 @@ except (AttributeError, ModuleNotFoundError):
             break
     if not copyto:
         raise RuntimeError("site-packages not found")
-
+print(copyfrom, copyto)
 if os.path.exists(copyto):
     rmtree(copyto)
 copytree(copyfrom, copyto)
@@ -42,6 +42,7 @@ copytree(copyfrom, copyto)
 setup(
     name="campfire",
     version=version,
+    packages=["campfire"],
     install_requires=requirements,
     python_requires=">=2.7",
     description="Campfire API",
