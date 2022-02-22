@@ -17,9 +17,6 @@ class Post(main._all["publication"]):
         """
         Создать класс Post.
         
-        Аргументы
-        -----------
-        
         content: :class:`dict`
             Словарь, который сервер Campfire отправляет для создания объекта поста.
         """
@@ -40,13 +37,11 @@ class Post(main._all["publication"]):
         """
         Создать класс Post с помощью его идентификатора.
         
-        Аргументы
-        -----------
         post_id: :class:`int`
             Айди поста.
         
         Возвращает
-        ------------
+        
         :class:`Post`
             Объект поста.
         """
@@ -58,8 +53,6 @@ class Post(main._all["publication"]):
         """
         Получить посты из ленты.
         
-        Аргументы
-        -----------
         offset: :class:`int`
             Дата создания последнего поста в миллисекундах.
         languages: :class:`list[int]`
@@ -70,7 +63,7 @@ class Post(main._all["publication"]):
             Только важные посты.
         
         Возвращает
-        ------------
+        
         :class:`list[Post]`
             Посты из ленты.
         """

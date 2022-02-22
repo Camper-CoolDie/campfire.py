@@ -1,4 +1,4 @@
-from ..api import campreq, get_timestamp
+from ..api import campreq, get_timestamp, get_deltastamp
 
 def get(account_id: int, account_name: str):
     params = {
@@ -131,6 +131,170 @@ def report(account_id: int, comment: str):
         "accountId": int(account_id),
         "comment": str(comment),
         "J_REQUEST_NAME": "RAccountsReport"
+    }
+    return campreq(params)
+
+def get_publications(
+        account_id: int,
+        offset: int,
+        count: int,
+        fandom_id: int,
+        fandom_ids: list,
+        only_with_fandom: bool,
+        important: bool,
+        types: list,
+        lang: int,
+        tags: list ):
+    params = {
+        "accountId": int(account_id),
+        "parentUnitId": 0,
+        "offset": int(offset),
+        "fandomId": int(fandom_id),
+        "fandomIds": list(fandom_ids),
+        "important": 0,
+        "drafts": bool(important),
+        "includeZeroLanguages": True,
+        "includeModerationsBlocks": True,
+        "includeModerationsOther": True,
+        "includeMultilingual": True,
+        "unitTypes": list(types),
+        "order": 1,
+        "languageId": int(lang),
+        "onlyWithFandom": bool(only_with_fandom),
+        "count": int(count),
+        "appKey": None,
+        "appSubKey": None,
+        "tags": list(tags),
+        "J_REQUEST_NAME": "RPublicationsGetAll"
+    }
+    return campreq(params)["units"]
+
+def admin_ban(account_id: int, comment: str, ban_time: int):
+    params = {
+        "accountId": int(account_id),
+        "banTime": get_deltastamp(ban_time),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminBan"
+    }
+    return campreq(params)
+
+def admin_change_name(account_id: int, comment: str, name: str):
+    params = {
+        "accountId": int(account_id),
+        "name": str(name),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminChangeName"
+    }
+    return campreq(params)
+
+def admin_effect_add(account_id: int, comment: str, index: int, end_date: int):
+    params = {
+        "accountId": int(account_id),
+        "effectIndex": int(index),
+        "effectEndDate": get_timestamp(end_date),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminEffectAdd"
+    }
+    return campreq(params)
+
+def admin_remove_description(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminRemoveDescription"
+    }
+    return campreq(params)
+
+def admin_remove_status(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminStatusRemove"
+    }
+    return campreq(params)
+
+def admin_remove_link(account_id: int, comment: str, index: int):
+    params = {
+        "accountId": int(account_id),
+        "index": int(index),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAdminRemoveLink"
+    }
+    return campreq(params)
+
+def admin_remove_background(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsRemoveTitleImage"
+    }
+    return campreq(params)
+
+def admin_remove_avatar(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsRemoveAvatar"
+    }
+    return campreq(params)
+
+def admin_remove_name(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsRemoveName"
+    }
+    return campreq(params)
+
+def admin_recount_karma(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsKarmaRecount"
+    }
+    return campreq(params)
+
+def admin_recount_achievements(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsAchievementsRecount"
+    }
+    return campreq(params)
+
+def admin_clear_reports(account_id: int, comment: str):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RAccountsClearReports"
+    }
+    return campreq(params)
+
+def admin_get_reports(account_id: int, offset: int):
+    params = {
+        "unitId": int(account_id),
+        "offset": int(offset),
+        "J_REQUEST_NAME": "RAccountsReportsGetAllForAccount"
+    }
+    return campreq(params)["reports"]
+
+def admin_remove_moderator(account_id: int, comment: str, fandom_id: int, fandom_lang: int):
+    params = {
+        "fandomId": int(fandom_id),
+        "languageId": int(fandom_lang),
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RFandomsAdminRemoveModerator"
+    }
+    return campreq(params)
+
+def admin_change_viceroy(account_id: int, comment: str, fandom_id: int, fandom_lang: int):
+    params = {
+        "fandomId": int(fandom_id),
+        "languageId": int(fandom_lang),
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "J_REQUEST_NAME": "RFandomsAdminViceroyAssign"
     }
     return campreq(params)
 

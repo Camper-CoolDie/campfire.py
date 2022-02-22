@@ -19,6 +19,10 @@ readme = ""
 with open("README.rst", "r") as f:
     readme = f.read()
 
+package_data = {
+    "": ["components/cert.pem"]
+}
+
 packages = (
     "campfire",
     "campfire.components",
@@ -31,8 +35,10 @@ setup(
     name="campfire",
     version=version,
     packages=packages,
+    package_data=package_data,
+    include_package_data=True,
     install_requires=requirements,
-    python_requires=">=2.7",
+    python_requires=">=3.6",
     description="Campfire API",
     long_description=readme,
     long_description_content_type="text/x-rst",

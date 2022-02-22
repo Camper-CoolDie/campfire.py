@@ -2,6 +2,8 @@ from ..reqs import account
 from ..api import get_date
 from . import main
 
+_pubcls = main._all["publication"]
+
 class Account(object):
     __slots__ = (
         "id",
@@ -97,245 +99,73 @@ class Account(object):
     def report(self, comment: str):
         return account.report(self.id, comment)
     
-    def get_publications(self, lang: int = 2, offset: int = 0, count: int = 20, types: list = [1, 8, 9, 11]):
-        """Get publications"""
+    def get_publications(self,
+            offset: int = 0,
+            count: int = 20,
+            types: list = _pubcls._type_classes_valid,
+            lang: int = 2,
+            *,
+            fandom_id: int = 0,
+            fandom_ids: list = [],
+            only_with_fandom: bool = False,
+            important: bool = False,
+            tags: list = [] ):
+        units = account.get_publications(self.id, offset, count, fandom_id, fandom_ids, only_with_fandom, important, types, lang, tags)
         
-        params = {
-            "accountId": self.account_id,
-            "parentUnitId": 0,
-            "offset": int(offset),
-            "fandomId": 0,
-            "fandomIds": [],
-            "important": 0,
-            "drafts": False,
-            "includeZeroLanguages": True,
-            "includeModerationsBlocks": True,
-            "includeModerationsOther": True,
-            "includeMultilingual": True,
-            "unitTypes": list(types),
-            "order": 1,
-            "languageId": int(lang),
-            "onlyWithFandom": True,
-            "count": int(count),
-            "appKey": None,
-            "appSubKey": None,
-            "tags": [],
-            "J_REQUEST_NAME": "RPublicationsGetAll"
-        }
-        content = post(params)
-        if "code" in content: return
-        
-        res = []
-        for unit in content["units"]:
-            for unit_type, category in category_types.items():
-                if unit["unitType"] == category:
-                    if unit_type == "COMMENT":
-                        res.append((unit["unitType"], Comment.Comment(unit)))
-                    elif unit_type == "POST":
-                        res.append((unit["unitType"], Post.Post(unit)))
-                    elif unit_type == "MESSAGE":
-                        res.append((unit["unitType"], Chat.Message(unit)))
-                    elif unit_type == "MODERATION":
-                        res.append((unit["unitType"], Moderation.Moderation(unit)))
-                    else:
-                        res.append(None)
-                    break
-        
+        res = [ main._all[_pubcls._type_classes[unit["unitType"]]](unit) for unit in units if _pubcls._type_classes[unit["unitType"]] in main._all ] # python moment©
         return res
     
     # Admin
     
     def admin_ban(self, comment: str, ban_time: int):
-        """Ban this Account"""
-        
-        params = {
-            "accountId": self.account_id,
-            "banTime": get_deltastamp(ban_time),
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminBan"
-        }
-        content = post(params)
-        return content
+        return account.admin_ban(self.id, comment, ban_time)
     
     def admin_change_name(self, comment: str, name: str):
-        """Change name"""
-        
-        params = {
-            "accountId": self.account_id,
-            "name": str(name),
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminChangeName"
-        }
-        content = post(params)
-        return content
+        return account.admin_change_name(self.id, comment, name)
     
     def admin_add_effect(self, comment: str, index: int, end_date: int):
-        """Add effect"""
-        
-        params = {
-            "accountId": self.account_id,
-            "effectIndex": int(index),
-            "effectEndDate": get_timestamp(end_date),
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminEffectAdd"
-        }
-        content = post(params)
-        return content
+        return account.admin_effect_add(self.id, comment, index, end_date)
     
     @staticmethod
     def admin_remove_effect(comment: str, effect_id: int):
-        """Remove effect"""
-        
-        params = {
-            "effectId": int(effect_id),
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminEffectRemove"
-        }
-        content = post(params)
-        return content
+        return account.admin_effect_remove(effect_id, comment)
     
     def admin_remove_description(self, comment: str):
-        """Remove description"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminRemoveDescription"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_description(self.id, comment)
     
     def admin_remove_status(self, comment: str):
-        """Remove status"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminStatusRemove"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_status(self.id, comment)
     
     def admin_remove_link(self, comment: str, index: int):
-        """Remove link"""
-        
-        params = {
-            "accountId": self.account_id,
-            "index": int(index),
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAdminRemoveLink"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_link(self.id, comment, index)
     
     def admin_remove_background(self, comment: str):
-        """Remove background"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsRemoveTitleImage"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_background(self.id, comment)
     
     def admin_remove_avatar(self, comment: str):
-        """Remove avatar"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsRemoveAvatar"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_avatar(self.id, comment)
     
     def admin_remove_name(self, comment: str):
-        """Remove name"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsRemoveName"
-        }
-        content = post(params)
-        return content
+        return account.admin_remove_name(self.id, comment)
     
     def admin_recount_karma(self, comment: str):
-        """Recount karma"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsKarmaRecount"
-        }
-        content = post(params)
-        return content
+        return account.admin_recount_karma(self.id, comment)
     
     def admin_recount_achievements(self, comment: str):
-        """Recount achievements (level)"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsAchievementsRecount"
-        }
-        content = post(params)
-        return content
+        return account.admin_recount_achievements(self.id, comment)
     
     def admin_clear_reports(self, comment: str):
-        """Clear reports"""
-        
-        params = {
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RAccountsClearReports"
-        }
-        content = post(params)
-        return content
+        return account.admin_clear_reports(self.id, comment)
     
     def admin_get_reports(self, *, offset: int = 0):
-        """Get reports"""
-        
-        params = {
-            "unitId": self.account_id,
-            "offset": int(offset),
-            "J_REQUEST_NAME": "RAccountsReportsGetAllForAccount"
-        }
-        content = post(params)
-        if "code" in content: return content
-        
-        res = []
-        for report in content["reports"]:
-            res.append(Publication.Report(report))
-        
-        return res
+        reports = account.admin_get_reports(self.id, offset)
+        return [ main._all["report"](report) for report in reports ]
     
-    def admin_remove_moderator(self, comment: str, fandom_id: int, lang: int = 2):
-        """Remove moderator in Fandom"""
-        
-        params = {
-            "fandomId": int(fandom_id),
-            "languageId": int(lang),
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RFandomsAdminRemoveModerator"
-        }
-        content = post(params)
-        return content
+    def admin_remove_moderator(self, comment: str, fandom_id: int, fandom_lang: int = 2):
+        return account.admin_remove_moderator(self.id, comment, fandom_id, fandom_lang)
     
-    def admin_change_viceroy(self, comment: str, fandom_id: int, lang: int = 2):
-        """Change Viceroy in Fandom"""
-        
-        params = {
-            "fandomId": int(fandom_id),
-            "languageId": int(lang),
-            "accountId": self.account_id,
-            "comment": str(comment),
-            "J_REQUEST_NAME": "RFandomsAdminViceroyAssign"
-        }
-        content = post(params)
-        return content
+    def admin_change_viceroy(self, comment: str, fandom_id: int, fandom_lang: int = 2):
+        return account.admin_change_viceroy(self.id, comment, fandom_id, fandom_lang)
 
 class AccountProfile(object):
     __slots__ = (

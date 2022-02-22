@@ -39,6 +39,30 @@ class Publication(object):
         "s_tag"
     )
     
+    TYPE_COMMENT = 1
+    TYPE_MESSAGE = 8
+    TYPE_POST = 9
+    TYPE_TAG = 10
+    TYPE_MODERATION = 11
+    TYPE_EVENT_USER = 12
+    TYPE_STICKER_PACK = 15
+    TYPE_STICKER = 16
+    TYPE_EVENT_MODER = 17
+    TYPE_EVENT_ADMIN = 18
+    TYPE_EVENT_FANDOM = 19
+    TYPE_UNKNOWN = 20
+    
+    _type_classes = {
+        1: "comment",
+        8: "message",
+        9: "post",
+        10: "tag",
+        11: "moderation",
+        15: "stickerpack",
+        16: "sticker"
+    }
+    _type_classes_valid = _type_classes.keys()
+    
     def __init__(self, content):
         self.id = content["id"]
         self.category = content["category"]
@@ -69,7 +93,7 @@ class Publication(object):
         self.fandom_karma_cof = content["fandomKarmaCof"] / 100
         self.fandom_is_closed = True if content["fandomClosed"] == -1 else False
         self.fandom_image = content["fandomImageId"]
-        #self.fandom = Fandom.Fandom(content["fandom"])
+        self.fandom = main._all["fandom"](content["fandom"])
         
         self.tags = (
             content["tag_1"],

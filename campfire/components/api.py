@@ -48,6 +48,14 @@ def auth(email, password, bot_token = ""):
     global API_LOGIN_TOKEN
     API_LOGIN_TOKEN = "Email - %s - %s" % (email, sha512(password.encode()).hexdigest())
 
+def get_resource(resource):
+    if hasattr(resource, "read"):
+        res = base64.b64encode(resource.read()).decode("ascii")
+    else:
+        with open(resource, "rb") as f:
+            res = base64.b64encode(f.read()).decode("ascii")
+    return res
+
 def get_resources(resources):
     res = []
     for resource in resources:
