@@ -3,6 +3,14 @@ from ...api import get_date
 from .. import main
 
 class Publication(object):
+    """
+    Имитирует объект публикации.
+    
+    От этого класса наследствуются другие классы:
+    * :class:`Post`
+    * :class:`Comment`
+    """
+    
     __slots__ = (
         "id",
         "category",
@@ -107,52 +115,186 @@ class Publication(object):
         self.s_tag = content["tag_s_1"]
     
     def get_comments(self, *, offset: int = 0, from_bottom: bool = False):
+        """
+        Получить список комментариев.
+        
+        offset: :class:`int`
+            Смещение списка комментариев.
+        from_bottom: :class:`bool`
+            Начинать список со старых или новых комментариев.
+        
+        Возвращает
+        
+        :class:`list[Comment]`
+            Список комментариев.
+        """
+        
         comments = publications.get_comments(self.id, offset, from_bottom)
         return [ main._all["comment"](comment) for comment in comments ]
     
     def comment(self, text: str, *, sticker: int = 0, images: list = [], reply: int = 0):
+        """
+        Оставить комментарий под постом.
+        
+        text: :class:`str`
+            Текст комментария.
+        sticker: :class:`int`
+            Идентификатор стикера, если требуется.
+        images: :class:`list[int]`
+            Список картинок.
+        reply: :class:`int`
+            Идентификатор комментария, на который отвечают.
+        
+        Возвращает
+        
+        :class:`Comment`
+            Ваш комментарий.
+        """
+        
         comment = publications.comment(self.id, text, sticker, images, reply)
         return main._all["comment"](comment)
     
     def set_karma(self, positive: bool = True, *, anonim: bool = False):
+        """
+        Поставить карму.
+        
+        positive: :class:`bool`
+            Положительная или отрицательная карма.
+        anonim: :class:`bool`
+            Поставить анонимную оценку.
+        
+        .. warning::
+            В данный момент, Зеон запретил ботам ставить карму, во избежание накрутки.
+        """
+        
         return publications.set_karma(self.id, positive, anonim)
     
     def add_reaction(self, index: int):
+        """
+        Добавить реакцию.
+        
+        index: :class:`int`
+            Индекс реакции.
+        """
+        
         return publications.reaction_add(self.id, index)
     
     def remove_reaction(self, index: int):
+        """
+        Удалить свою реакцию.
+        
+        index: :class:`int`
+            Индекс реакции.
+        """
+        
         return publications.reaction_remove(self.id, index)
     
     def get_reaction(self, index: int):
+        """
+        Получить список аккаунтов, поставивших свою реакцию.
+        
+        index: :class:`int`
+            Индекс реакции.
+        
+        Возвращает
+        
+        :class:`list[Account]`
+            Список аккаунтов.
+        """
+        
         accounts = publications.reaction_get(self.id, index)
         return [ main._all["account"](account) for account in accounts ]
     
     def report(self, text: str):
+        """
+        Пожаловаться на публикацию.
+        
+        text: :class:`str`
+            Комментарий жалобы.
+        """
+        
         return publications.report(self.id, text)
     
     def get_rates(self, *, offset: int = 0):
+        """
+        Список оценок под публикацией.
+        
+        offset: :class:`int`
+            Смещение списка.
+        
+        Возвращает
+        
+        :class:`list[Rate]`
+            Список оценок.
+        """
+        
         rates = publications.get_rates(self.id, offset)
         return [ Rate(rate) for rate in rates ]
     
     def get_history(self, *, offset: int = 0):
+        """
+        Получить историю публикации.
+        
+        offset: :class:`int`
+            Смещение списка.
+        
+        Возвращает
+        
+        :class:`list[HistoryItem]`
+            История публикации.
+        """
+        
         history = publications.get_history(self.id, offset)
         return [ HistoryItem(item) for item in history ]
     
     def get_reports(self, *, offset: int = 0):
+        """
+        Список жалоб под публикацией.
+        
+        offset: :class:`int`
+            Смещение списка.
+        
+        Возвращает
+        
+        :class:`list[Report]`
+            Список жалоб.
+        """
+        
         reports = publications.get_reports(self.id, offset)
         return [ Report(report) for report in reports ]
     
     # Self-actions
     
     def remove(self):
+        """
+        Удалить публикацию.
+        """
+        
         return publications.remove(self.id)
     
     # Moderator
     
     def moderator_block(self, comment: str, block_last_publications: bool = False, ban_time: int = -1, block_in_app: bool = False):
+        """
+        Заблокировать публикацию.
+        
+        comment: :class:`str`
+            Комментарий к модераторскому действию.
+        block_last_publications: :class:`bool`
+            Заблокировать публикации пользователя за последний час.
+        ban_time: :class:`int`
+            Время блокировки в миллисекундах, если требуется.
+        block_in_app: :class:`bool`
+            Заблокировать пользователя во всём приложении.
+        """
+        
         return publications.moderator_block(self.id, comment, block_last_publications, ban_time, block_in_app)
     
     def moderator_clear_reports(self):
+        """
+        Очистить жалобы под публикацией.
+        """
+        
         return publications.moderator_clear_reports(self.id)
 
 class Rate(object):
