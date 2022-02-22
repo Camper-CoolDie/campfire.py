@@ -6,10 +6,14 @@
 Объекты
 ---------
 
+Publication
+~~~~~~~~~~~~~
+
+.. autoclass:: Publication
+    :members:
+
 Post
 ~~~~~~
-
-.. attributetable:: Post
 
 .. autoclass:: Post
     :members:
