@@ -2,6 +2,10 @@ from ...reqs import publications
 from .. import main
 
 class Comment(main._all["publication"]):
+    """
+    Имитирует объект комментария.
+    """
+    
     __slots__ = (
         "images",
         "sticker",
@@ -40,14 +44,53 @@ class Comment(main._all["publication"]):
     
     @staticmethod
     def get(parent_id: int, unit_id: int):
+        """
+        Получить объект комментария.
+        
+        parent_id: :class:`int`
+            Идентификатор поста.
+        unit_id: :class:`int`
+            Идентификатор комментария.
+        
+        Возвращает
+        
+        :class:`Comment`
+            Комментарий.
+        """
+        
         return Comment(publications.get_comment(parent_id, unit_id))
     
     def reply(self, text: str, *, sticker: int = 0, images: list = []):
+        """
+        Ответить на комментарий.
+        
+        text: :class:`str`
+            Текст комментария.
+        sticker: :class:`int`
+            Идентификатор стикера, если требуется.
+        images: :class:`list[int]`
+            Список картинок.
+        
+        Возвращает
+        
+        :class:`Comment`
+            Ваш комментарий.
+        """
+        
         return Comment(publications.comment(self.parent_id, text, sticker, images, self.id))
     
     # Self-actions
     
     def change(self, text: str, *, reply: int = -1):
+        """
+        Изменить комментарий.
+        
+        text: :class:`str`
+            Текст комментария.
+        reply: :class:`int`
+            Идентификатор комментария, на который отвечают.
+        """
+        
         reply = int(reply)
         return publications.comment_change(self.id, text, self.quote_id if reply == -1 else reply)
 

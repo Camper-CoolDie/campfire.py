@@ -7,6 +7,7 @@ class Publication(object):
     Имитирует объект публикации.
     
     От этого класса наследствуются другие классы:
+    
     * :class:`Post`
     * :class:`Comment`
     """

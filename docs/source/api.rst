@@ -13,7 +13,25 @@ Publication
     :members:
 
 Post
-~~~~~~
+^^^^^^
 
 .. autoclass:: Post
+    :members:
+
+Comment
+^^^^^^^^^
+
+.. autoclass:: Comment
+    :members:
+
+Account
+~~~~~~~~~
+
+.. autoclass:: Account
+    :members:
+
+Fandom
+~~~~~~~~
+
+.. autoclass:: Fandom
     :members:
