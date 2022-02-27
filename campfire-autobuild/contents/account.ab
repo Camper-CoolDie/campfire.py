@@ -1,0 +1,213 @@
+#def RAccountsGet get
+int accountId account_id
+str accountName account_name
+:account
+#fed
+
+#def RAccountsRatingGet get_from_rating
+#fed
+
+#def RAccountsGetAllOnline get_from_online
+timestamp offsetDate offset_date
+:accounts
+#fed
+
+#def RAccountsGetProfile get_profile
+int accountId account_id
+str accountName account_name
+#fed
+
+#def RAccountsGetStory get_story
+int accountId account_id
+#fed
+
+#def RAccountsFollowsChange follow
+int accountId account_id
+bool follow state
+#fed
+
+#def RAccountsFollowsGetAll get_follows
+int followsOfaAccountId account_id
+bool followers followers
+int offset offset
+:accounts
+#fed
+
+#def RAccountsRatesGetAll get_rates
+int accountId account_id
+int offset offset
+:rates
+#fed
+
+#def RAccountsPunishmentsGetAll get_punishments
+int accountId account_id
+int offset offset
+#fed
+
+#def RAccountsBlackListAdd add_bl
+int accountId account_id
+#fed
+
+#def RAccountsBlackListRemove remove_bl
+int accountId account_id
+#fed
+
+#def RAccountsBlackListCheck check_bl
+int accountId account_id
+:isInBlackList
+#fed
+
+#def RFandomsGetAllSubscribed get_subscribed_fandoms
+int accountId account_id
+int offset offset
+:fandoms
+#fed
+
+#def RFandomsGetAllModerated get_moderated_fandoms
+int accountId account_id
+int offset offset
+:fandoms
+#fed
+
+#def RActivitiesGetAllForAccount get_activities
+int accountId account_id
+int offset offset
++fandomId 0
++languageId 0
+:userActivities
+#fed
+
+#def RRubricsGetAll get_rubrics
+int ownerId account_id
+int offset offset
++fandomId 0
++languageId 0
+:rubrics
+#fed
+
+#def RAccountsReport report
+int accountId account_id
+str comment comment
+#fed
+
+#def RPublicationsGetAll get_publications
+int accountId account_id
+int offset offset
+int count count
+int fandomId fandom_id
+list fandomIds fandom_ids
+bool onlyWithFandom only_with_fandom
+bool important important
+list unitTypes types
+int languageId lang
+list tags tags
++parentUnitId 0
++drafts False
++includeZeroLanguages True
++includeModerationsBlock True
++includeModerationsOther True
++includeMultilingual True
++order 1
++appKey None
++appSubKey None
+:units
+#fed
+
+#def RAccountsAdminBan admin_ban
+int accointId account_id
+str comment comment
+deltastamp banTime ban_time
+#fed
+
+#def RAccountsAdminChangeName admin_change_name
+int accountId account_id
+str comment comment
+str name name
+#fed
+
+#def RAccountsAdminEffectAdd admin_effect_add
+int accountId account_id
+str comment comment
+int effectIndex index
+timestamp effectEndDate end_date
+#fed
+
+#def RAccountsAdminRemoveDescription admin_remove_description
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAdminRemoveStatus admin_remove_status
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAdminRemoveBackground admin_remove_background
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAdminRemoveAvatar admin_remove_avatar
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAdminRemoveName admin_remove_name
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAdminRemoveLink admin_remove_link
+int accountId account_id
+str comment comment
+int index index
+#fed
+
+#def RAccountsKarmaRecount admin_recount_karma
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsAchievementsRecount admin_recount_achievements
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsClearReports admin_clear_reports
+int accountId account_id
+str comment comment
+#fed
+
+#def RAccountsReportsGetAllForAccount admin_get_reports
+int unitId account_id
+int offset offset
+:reports
+#fed
+
+#def RFandomsAdminRemoveModerator admin_remove_moderator
+int accountId account_id
+str comment comment
+int fandomId fandom_id
+int languageId fandom_lang
+#fed
+
+#def RFandomsAdminViceroyAssign admin_change_viceroy
+int accountId account_id
+str comment comment
+int fandomId fandom_id
+int languageId fandom_lang
+#fed
+
+AccountEffect
+
+#def RAccountsAdminEffectRemove admin_effect_remove
+int effectId effect_id
+str comment comment
+#fed
+
+AccountPunishment
+
+#def RAccountsAdminPunishmentsRemove admin_punishment_remove
+int punishmentId punishment_id
+str comment comment
+#fed

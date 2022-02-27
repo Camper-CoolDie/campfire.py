@@ -27,6 +27,7 @@ packages = (
     "campfire",
     "campfire.components",
     "campfire.components.reqs",
+    "campfire.components.reqs.request",
     "campfire.components.models",
     "campfire.components.models.publications"
 )

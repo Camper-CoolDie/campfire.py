@@ -1,4 +1,7 @@
-from ..api import campreq, get_timestamp, get_deltastamp
+# This file was generated automatically
+# using other files prepared for generation
+
+from ._abcollect import *
 
 def get(account_id: int, account_name: str):
     params = {
@@ -12,9 +15,9 @@ def get_from_rating():
     params = {
         "J_REQUEST_NAME": "RAccountsRatingGet"
     }
-    return campreq(params)
+    return campreq(params)["accounts"]
 
-def get_from_online(offset_date: int):
+def get_from_online(offset_date):
     params = {
         "offsetDate": get_timestamp(offset_date),
         "J_REQUEST_NAME": "RAccountsGetAllOnline"
@@ -47,8 +50,8 @@ def follow(account_id: int, state: bool):
 def get_follows(account_id: int, followers: bool, offset: int):
     params = {
         "followsOfaAccountId": int(account_id),
-        "offset": int(offset),
         "followers": bool(followers),
+        "offset": int(offset),
         "J_REQUEST_NAME": "RAccountsFollowsGetAll"
     }
     return campreq(params)["accounts"]
@@ -67,7 +70,7 @@ def get_punishments(account_id: int, offset: int):
         "offset": int(offset),
         "J_REQUEST_NAME": "RAccountsPunishmentsGetAll"
     }
-    return campreq(params)["punishments"]
+    return campreq(params)
 
 def add_bl(account_id: int):
     params = {
@@ -109,19 +112,19 @@ def get_moderated_fandoms(account_id: int, offset: int):
 def get_activities(account_id: int, offset: int):
     params = {
         "accountId": int(account_id),
+        "offset": int(offset),
         "fandomId": 0,
         "languageId": 0,
-        "offset": int(offset),
         "J_REQUEST_NAME": "RActivitiesGetAllForAccount"
     }
     return campreq(params)["userActivities"]
 
 def get_rubrics(account_id: int, offset: int):
     params = {
-        "fandomId": 0,
-        "languageId": 0,
         "ownerId": int(account_id),
         "offset": int(offset),
+        "fandomId": 0,
+        "languageId": 0,
         "J_REQUEST_NAME": "RRubricsGetAll"
     }
     return campreq(params)["rubrics"]
@@ -134,46 +137,36 @@ def report(account_id: int, comment: str):
     }
     return campreq(params)
 
-def get_publications(
-        account_id: int,
-        offset: int,
-        count: int,
-        fandom_id: int,
-        fandom_ids: list,
-        only_with_fandom: bool,
-        important: bool,
-        types: list,
-        lang: int,
-        tags: list ):
+def get_publications(account_id: int, offset: int, count: int, fandom_id: int, fandom_ids: list, only_with_fandom: bool, important: bool, types: list, lang: int, tags: list):
     params = {
         "accountId": int(account_id),
-        "parentUnitId": 0,
         "offset": int(offset),
+        "count": int(count),
         "fandomId": int(fandom_id),
         "fandomIds": list(fandom_ids),
-        "important": 0,
-        "drafts": bool(important),
+        "onlyWithFandom": bool(only_with_fandom),
+        "important": bool(important),
+        "unitTypes": list(types),
+        "languageId": int(lang),
+        "tags": list(tags),
+        "parentUnitId": 0,
+        "drafts": False,
         "includeZeroLanguages": True,
-        "includeModerationsBlocks": True,
+        "includeModerationsBlock": True,
         "includeModerationsOther": True,
         "includeMultilingual": True,
-        "unitTypes": list(types),
         "order": 1,
-        "languageId": int(lang),
-        "onlyWithFandom": bool(only_with_fandom),
-        "count": int(count),
         "appKey": None,
         "appSubKey": None,
-        "tags": list(tags),
         "J_REQUEST_NAME": "RPublicationsGetAll"
     }
     return campreq(params)["units"]
 
-def admin_ban(account_id: int, comment: str, ban_time: int):
+def admin_ban(account_id: int, comment: str, ban_time):
     params = {
-        "accountId": int(account_id),
-        "banTime": get_deltastamp(ban_time),
+        "accointId": int(account_id),
         "comment": str(comment),
+        "banTime": get_deltastamp(ban_time),
         "J_REQUEST_NAME": "RAccountsAdminBan"
     }
     return campreq(params)
@@ -181,18 +174,18 @@ def admin_ban(account_id: int, comment: str, ban_time: int):
 def admin_change_name(account_id: int, comment: str, name: str):
     params = {
         "accountId": int(account_id),
-        "name": str(name),
         "comment": str(comment),
+        "name": str(name),
         "J_REQUEST_NAME": "RAccountsAdminChangeName"
     }
     return campreq(params)
 
-def admin_effect_add(account_id: int, comment: str, index: int, end_date: int):
+def admin_effect_add(account_id: int, comment: str, index: int, end_date):
     params = {
         "accountId": int(account_id),
+        "comment": str(comment),
         "effectIndex": int(index),
         "effectEndDate": get_timestamp(end_date),
-        "comment": str(comment),
         "J_REQUEST_NAME": "RAccountsAdminEffectAdd"
     }
     return campreq(params)
@@ -209,16 +202,7 @@ def admin_remove_status(account_id: int, comment: str):
     params = {
         "accountId": int(account_id),
         "comment": str(comment),
-        "J_REQUEST_NAME": "RAccountsAdminStatusRemove"
-    }
-    return campreq(params)
-
-def admin_remove_link(account_id: int, comment: str, index: int):
-    params = {
-        "accountId": int(account_id),
-        "index": int(index),
-        "comment": str(comment),
-        "J_REQUEST_NAME": "RAccountsAdminRemoveLink"
+        "J_REQUEST_NAME": "RAccountsAdminRemoveStatus"
     }
     return campreq(params)
 
@@ -226,7 +210,7 @@ def admin_remove_background(account_id: int, comment: str):
     params = {
         "accountId": int(account_id),
         "comment": str(comment),
-        "J_REQUEST_NAME": "RAccountsRemoveTitleImage"
+        "J_REQUEST_NAME": "RAccountsAdminRemoveBackground"
     }
     return campreq(params)
 
@@ -234,7 +218,7 @@ def admin_remove_avatar(account_id: int, comment: str):
     params = {
         "accountId": int(account_id),
         "comment": str(comment),
-        "J_REQUEST_NAME": "RAccountsRemoveAvatar"
+        "J_REQUEST_NAME": "RAccountsAdminRemoveAvatar"
     }
     return campreq(params)
 
@@ -242,7 +226,16 @@ def admin_remove_name(account_id: int, comment: str):
     params = {
         "accountId": int(account_id),
         "comment": str(comment),
-        "J_REQUEST_NAME": "RAccountsRemoveName"
+        "J_REQUEST_NAME": "RAccountsAdminRemoveName"
+    }
+    return campreq(params)
+
+def admin_remove_link(account_id: int, comment: str, index: int):
+    params = {
+        "accountId": int(account_id),
+        "comment": str(comment),
+        "index": int(index),
+        "J_REQUEST_NAME": "RAccountsAdminRemoveLink"
     }
     return campreq(params)
 
@@ -280,25 +273,23 @@ def admin_get_reports(account_id: int, offset: int):
 
 def admin_remove_moderator(account_id: int, comment: str, fandom_id: int, fandom_lang: int):
     params = {
-        "fandomId": int(fandom_id),
-        "languageId": int(fandom_lang),
         "accountId": int(account_id),
         "comment": str(comment),
+        "fandomId": int(fandom_id),
+        "languageId": int(fandom_lang),
         "J_REQUEST_NAME": "RFandomsAdminRemoveModerator"
     }
     return campreq(params)
 
 def admin_change_viceroy(account_id: int, comment: str, fandom_id: int, fandom_lang: int):
     params = {
-        "fandomId": int(fandom_id),
-        "languageId": int(fandom_lang),
         "accountId": int(account_id),
         "comment": str(comment),
+        "fandomId": int(fandom_id),
+        "languageId": int(fandom_lang),
         "J_REQUEST_NAME": "RFandomsAdminViceroyAssign"
     }
     return campreq(params)
-
-# AccountEffect
 
 def admin_effect_remove(effect_id: int, comment: str):
     params = {
@@ -307,8 +298,6 @@ def admin_effect_remove(effect_id: int, comment: str):
         "J_REQUEST_NAME": "RAccountsAdminEffectRemove"
     }
     return campreq(params)
-
-# AccountPunishment
 
 def admin_punishment_remove(punishment_id: int, comment: str):
     params = {

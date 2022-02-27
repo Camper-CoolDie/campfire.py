@@ -55,15 +55,15 @@ class Account(object):
     def follow(self, state: bool = True):
         return account.follow(self.id, state)
     
-    def get_follows(self, *, offset: int = 0):
+    def get_follows(self, offset: int = 0):
         accounts = account.get_follows(self.id, False, offset)
         return [ Account(account) for account in accounts ]
     
-    def get_followers(self, *, offset: int = 0):
+    def get_followers(self, offset: int = 0):
         accounts = account.get_follows(self.id, True, offset)
         return [ Account(account) for account in accounts ]
     
-    def get_rates(self, *, offset: int = 0):
+    def get_rates(self, offset: int = 0):
         rates = account.get_rates(self.id, offset)
         return [ main._all["rate"](rate) for rate in rates ]
     
@@ -88,11 +88,11 @@ class Account(object):
         fandoms = account.get_moderated_fandoms(self.id, offset)
         return [ main._all["fandom"](fandom) for fandom in fandoms ]
     
-    def get_activities(self, *, offset: int = 0):
+    def get_activities(self, offset: int = 0):
         activities = account.get_activities(self.id, offset)
         return [ main._all["activity"](activity) for activity in activities ]
     
-    def get_rubrics(self, *, offset: int = 0):
+    def get_rubrics(self, offset: int = 0):
         rubrics = account.get_rubrics(self.id, offset)
         return [ main._all["rubric"](rubric) for rubric in rubrics ]
     
@@ -157,7 +157,7 @@ class Account(object):
     def admin_clear_reports(self, comment: str):
         return account.admin_clear_reports(self.id, comment)
     
-    def admin_get_reports(self, *, offset: int = 0):
+    def admin_get_reports(self, offset: int = 0):
         reports = account.admin_get_reports(self.id, offset)
         return [ main._all["report"](report) for report in reports ]
     

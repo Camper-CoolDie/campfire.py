@@ -1,36 +1,35 @@
-from ..api import campreq, get_resources
+# This file was generated automatically
+# using other files prepared for generation
 
-def get_comments(unit_id: int, offset: int = 0, from_bottom: bool = False):
+from ._abcollect import *
+
+def get_comments(unit_id: int, offset, from_bottom: bool):
     params = {
         "unitId": int(unit_id),
-        "offsetDate": int(offset),
-        "old": False,
+        "offsetDate": get_timestamp(offset),
         "startFromBottom": bool(from_bottom),
+        "old": False,
         "J_REQUEST_NAME": "RCommentsGetAll"
     }
     return campreq(params)["units"]
 
-def comment(unit_id: int, text: str, sticker: int = 0, images: list = [], reply: int = 0):
-    res_images = [None] + get_resources(images)
-    
+def comment(unit_id: int, text: str, sticker: int, voice, images: list, reply: int):
     params = {
         "unitId": int(unit_id),
         "text": str(text),
-        "parentCommentId": int(reply),
-        "watchPost": True,
-        "quoteId": int(reply),
         "stickerId": int(sticker),
-        "J_REQUEST_NAME": "RCommentsCreate",
-        "dataOutputBase64": res_images
+        "quoteId": int(reply),
+        "watchPost": True,
+        "J_REQUEST_NAME": "RCommentsCreate"
     }
-    return campreq(params)["comment"]
+    return campreq(params, FLAG_DATAOUTPUT, resources = ((voice, FLAG_RESOURCE_NO_REQUIRED), (images, FLAG_RESOURCE_LIST),))
 
-def set_karma(unit_id: int, positive: bool = True, anonim: bool = False):
+def set_karma(unit_id: int, positive: bool, anonim: bool):
     params = {
         "unitId": int(unit_id),
         "up": bool(positive),
-        "userLanguage": 2,
         "anon": bool(anonim),
+        "userLanguage": 2,
         "J_REQUEST_NAME": "RPublicationsKarmaAdd"
     }
     return campreq(params)
@@ -59,10 +58,10 @@ def reaction_get(unit_id: int, index: int):
     }
     return campreq(params)["accounts"]
 
-def report(unit_id: int, text: str):
+def report(unit_id: int, comment: str):
     params = {
-        "unitId": int(unit_id),
-        "comment": str(text),
+        "publicationId": int(unit_id),
+        "comment": str(comment),
         "J_REQUEST_NAME": "RPublicationsReport"
     }
     return campreq(params)
@@ -73,7 +72,7 @@ def get_rates(unit_id: int, offset: int):
         "offset": int(offset),
         "J_REQUEST_NAME": "RPostRatesGetAll"
     }
-    return campreq(params)
+    return campreq(params)["rates"]
 
 def get_history(unit_id: int, offset: int):
     params = {
@@ -85,7 +84,7 @@ def get_history(unit_id: int, offset: int):
 
 def get_reports(unit_id: int, offset: int):
     params = {
-        "publicationId": int(unit_id),
+        "unitId": int(unit_id),
         "offset": int(offset),
         "J_REQUEST_NAME": "RPublicationsReportsGetAll"
     }
@@ -98,12 +97,12 @@ def remove(unit_id: int):
     }
     return campreq(params)
 
-def moderator_block(unit_id: int, comment: str, block_last_publications: bool = False, ban_time: int = -1, block_in_app: bool = False):
+def moderator_block(unit_id: int, comment: str, block_last_units: bool, ban_time, block_in_app: bool):
     params = {
         "unitId": int(unit_id),
-        "blockTime": int(ban_time),
-        "blockLastUnits": bool(block_last_publications),
         "comment": str(comment),
+        "blockLastUnits": bool(block_last_units),
+        "blockTime": get_deltastamp(ban_time),
         "blockInApp": bool(block_in_app),
         "userLanguageId": 2,
         "J_REQUEST_NAME": "RFandomsModerationBlock"
@@ -117,41 +116,40 @@ def moderator_clear_reports(unit_id: int):
     }
     return campreq(params)
 
-# Post
-
-def get_post(post_id):
+def get_post(unit_id: int):
     params = {
-        "unitId": int(post_id),
+        "unitId": int(unit_id),
         "J_REQUEST_NAME": "RPostGet"
     }
     return campreq(params)["unit"]
 
-def get_posts_from_feed(offset: int = 0, languages: list = [2], subscribes: bool = False, important: int = False):
-    if subscribes:
-        params = {
-            "offsetDate": int(offset),
-            "categoryId": 0,
-            "J_REQUEST_NAME": "RPostFeedGetAllSubscribe"
-        }
-    else:
-        params = {
-            "offsetDate": int(offset),
-            "importantOnly": bool(important),
-            "languagesId": list(languages),
-            "categoriesId": [],
-            "karmaCategory": 0,
-            "noSubscribers": True,
-            "noKarmaCategory": True,
-            "J_REQUEST_NAME": "RPostFeedGetAll"
-        }
+def post_get_from_feed(offset, important: bool, languages: list, no_karma_category: bool, karma_category: bool, categories: list):
+    params = {
+        "offsetDate": get_timestamp(offset),
+        "importantOnly": bool(important),
+        "languagesId": list(languages),
+        "noKarmaCategory": bool(no_karma_category),
+        "karmaCategory": bool(karma_category),
+        "categoriesId": list(categories),
+        "noSubscribers": True,
+        "J_REQUEST_NAME": "RPostFeedGetAll"
+    }
     return campreq(params)["units"]
 
-def post_change_fandom(unit_id: int, comment: str, fandom_id: int, fandom_lang: int = 2):
+def post_get_from_subscribers(offset, category: int):
+    params = {
+        "offsetDate": get_timestamp(offset),
+        "categoryId": int(category),
+        "J_REQUEST_NAME": "RPostFeedGetAllSubscribe"
+    }
+    return campreq(params)["units"]
+
+def post_change_fandom(unit_id: int, fandom_id: int, fandom_lang: int):
     params = {
         "unitId": int(unit_id),
         "fandomId": int(fandom_id),
         "languageId": int(fandom_lang),
-        "comment": str(comment),
+        "comment": "",
         "J_REQUEST_NAME": "RPostChangeFandom"
     }
     return campreq(params)
@@ -170,21 +168,21 @@ def post_close(unit_id: int):
     }
     return campreq(params)
 
-def post_close_no(unit_id: int):
+def post_no_close(unit_id: int):
     params = {
         "unitId": int(unit_id),
         "J_REQUEST_NAME": "RPostCloseNo"
     }
     return campreq(params)
 
-def post_set_multilingual(unit_id: int):
+def post_make_multilingual(unit_id: int):
     params = {
         "unitId": int(unit_id),
         "J_REQUEST_NAME": "RPostMakeMultilingual"
     }
     return campreq(params)
 
-def post_unset_multilingual(unit_id: int):
+def post_make_no_multilingual(unit_id: int):
     params = {
         "unitId": int(unit_id),
         "J_REQUEST_NAME": "RPostMakeMultilingualNot"
@@ -198,9 +196,9 @@ def post_notify_followers(unit_id: int):
     }
     return campreq(params)
 
-def post_pin_to_account(post_id: int):
+def post_pin_account(unit_id: int):
     params = {
-        "postId": int(post_id),
+        "unitId": int(unit_id),
         "J_REQUEST_NAME": "RPostPinAccount"
     }
     return campreq(params)
@@ -213,7 +211,7 @@ def moderator_post_close(unit_id: int, comment: str):
     }
     return campreq(params)
 
-def moderator_post_close_no(unit_id: int, comment: str):
+def moderator_post_no_close(unit_id: int, comment: str):
     params = {
         "unitId": int(unit_id),
         "comment": str(comment),
@@ -221,7 +219,7 @@ def moderator_post_close_no(unit_id: int, comment: str):
     }
     return campreq(params)
 
-def moderator_post_unset_multilingual(unit_id: int, comment: str):
+def moderator_post_make_no_multilingual(unit_id: int, comment: str):
     params = {
         "unitId": int(unit_id),
         "comment": str(comment),
@@ -229,11 +227,11 @@ def moderator_post_unset_multilingual(unit_id: int, comment: str):
     }
     return campreq(params)
 
-def moderator_post_set_important(unit_id: int, comment: str, important: bool = True):
+def moderator_post_important(unit_id: int, comment: str, important: bool):
     params = {
         "unitId": int(unit_id),
-        "important": bool(important),
         "comment": str(comment),
+        "important": bool(important),
         "J_REQUEST_NAME": "RFandomsModerationImportant"
     }
     return campreq(params)
@@ -246,9 +244,9 @@ def moderator_post_to_drafts(unit_id: int, comment: str):
     }
     return campreq(params)
 
-def moderator_post_pin_to_fandom(post_id: int, fandom_id: int, fandom_lang: int, comment: str):
+def moderator_post_pin_fandom(unit_id: int, comment: str, fandom_id: int, fandom_lang: int):
     params = {
-        "postId": int(post_id),
+        "unitId": int(unit_id),
         "comment": str(comment),
         "fandomId": int(fandom_id),
         "languageId": int(fandom_lang),
@@ -256,7 +254,7 @@ def moderator_post_pin_to_fandom(post_id: int, fandom_id: int, fandom_lang: int,
     }
     return campreq(params)
 
-def admin_post_make_moderator(unit_id: int, comment: str):
+def moderator_post_make_moderator(unit_id: int, comment: str):
     params = {
         "unitId": int(unit_id),
         "comment": str(comment),
@@ -264,21 +262,19 @@ def admin_post_make_moderator(unit_id: int, comment: str):
     }
     return campreq(params)
 
-# Comment
-
-def get_comment(parent_id: int, unit_id: int):
+def get_comment(parent_id: int, comment_id: int):
     params = {
         "parentPublicationId": int(parent_id),
-        "commentId": int(unit_id),
+        "commentId": int(comment_id),
         "J_REQUEST_NAME": "RCommentGet"
     }
     return campreq(params)["comment"]
 
-def comment_change(unit_id: int, text: str, reply: int):
+def comment_change(comment_id: int, text: str, reply: int):
     params = {
-        "commentId": int(unit_id),
-        "quoteId": int(reply),
+        "commentId": int(comment_id),
         "text": str(text),
+        "quoteId": int(reply),
         "J_REQUEST_NAME": "RCommentsChange"
     }
     return campreq(params)

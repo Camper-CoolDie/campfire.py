@@ -1,0 +1,269 @@
+#def RFandomsGet get
+int fandomId fandom_id
+int languageId fandom_lang
++accountLanguageId 2
+:fandom
+#fed
+
+#def RFandomsGetAll get_all
+str name name
+int languageId lang
+int offset offset
+int subscribedStatus subscribed
+int categoryId category_id
+list params1 params1
+list params2 params2
+list params3 params3
+list params4 params4
+:fandoms
+#fed
+
+#def RPublicationsGetAll get_publications
+int fandomId fandom_id
+int languageId fandom_lang
+int offset offset
+int count count
+list fandomIds fandom_ids
+bool onlyWithFandom only_with_fandom
+bool important important
+list unitTypes types
+list tags tags
++accountId 0
++parentUnitId 0
++drafts False
++includeZeroLanguages True
++includeModerationsBlock True
++includeModerationsOther True
++includeMultilingual True
++order 1
++appKey None
++appSubKey None
+:units
+#fed
+
+#def RFandomsSuggest suggest
+str name name
+str notes note
+resource *avatar
+resource *background
+int categoryId category_id
+bool closed closed
+list params1 params1
+list params2 params2
+list params3 params3
+list params4 params4
+#fed
+
+#def RFandomsSubscribeChange subscribe
+int fandomId fandom_id
+int languageId fandom_lang
+int subscriptionType subscribed
+bool notifyImportant important
+#fed
+
+#def RFandomsSubscribersGetAll get_subscribers
+int fandomId fandom_id
+int languageId fandom_lang
+int offset offset
+:accounts
+#fed
+
+#def RChatsFandomGetAll get_chats
+int fandomId fandom_id
+int languageId fandom_lang
+int offset offset
+:chats
+#fed
+
+#def RActivitiesGetAllNotForAccount get_activities
+int fandomId fandom_id
+int languageId fandom_lang
+int offset offset
++accountId 0
+:userActivities
+#fed
+
+#def RRubricsGetAll get_rubrics
+int fandomId fandom_id
+int languageId fandom_lang
+int offset offset
++ownerId 0
+:rubrics
+#fed
+
+#def RFandomsBlackListAdd add_bl
+int fandomId fandom_id
+#fed
+
+#def RFandomsBlackListRemove remove_bl
+int fandomId fandom_id
+#fed
+
+#def RFandomsBlackListContains check_bl
+int fandomId fandom_id
+:contains
+#fed
+
+#def RFandomsModerationChatCreate moderator_create_chat
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+str name name
+str text text
+resource *avatar
+#fed
+
+#def RFandomsModerationChangeImageBackground moderator_change_chat_background
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+resource *background
+#fed
+
+#def RFandomsModerationLinkAdd moderator_add_link
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+str title title
+str url url
+int iconIndex icon
+#fed
+
+#def RFandomsModerationLinkChange moderator_change_link
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+int linkId link_id
+str title title
+str url url
+int iconIndex icon
+#fed
+
+#def RFandomsModerationLinkRemove moderator_remove_link
+int linkIndex link_id
+str comment comment
+#fed
+
+#def RFandomsModerationDescriptionChange moderator_change_description
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+str description description
+#fed
+
+#def RFandomsModerationGalleryAdd moderator_gallery_add
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+resource *image
+#fed
+
+#def RFandomsModerationGalleryRemove moderator_gallery_remove
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+int imageId image_id
+#fed
+
+#def RFandomsModerationNames moderator_set_names
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+list names names
+#fed
+
+#def RActivitiesRelayRaceCreate moderator_create_activity
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+str name name
+str description description
+int accountId account_id
+#fed
+
+#def RRubricsModerCreate moderator_create_rubric
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+str name name
+int ownerId owner_id
+#fed
+
+#def RFandomsAdminChangeImage admin_change_avatar
+int fandomId fandom_id
+str comment comment
+resource *avatar
+#fed
+
+#def RFandomsAdminChangeName admin_change_name
+int fandomId fandom_id
+str comment comment
+str name name
+#fed
+
+#def RFandomsAdminClose admin_close
+int fandomId fandom_id
+str comment comment
+bool closed closed
+#fed
+
+#def RFandomsAdminRemoveModerator admin_remove_moderator
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+int accountId account_id
+#fed
+
+#def RFandomsAdminViceroyAssign admin_change_viceroy
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+int accountId account_id
+#fed
+
+#def RFandomsAdminViceroyRemove admin_remove_viceroy
+int fandomId fandom_id
+int languageId fandom_lang
+str comment comment
+#fed
+
+#def RFandomsAdminSetCof admin_set_cof
+int fandomId fandom_id
+str comment comment
+int cof cof
+#fed
+
+#def RFandomsAdminRemove admin_remove
+int fandomId fandom_id
+str comment comment
+#fed
+
+#def RFandomsAdminChangeCategory admin_change_category
+int fandomId fandom_id
+str comment comment
+int categoryId category_id
+#fed
+
+#def RFandomsSuggestedGetAll admin_get_all_suggested
+int offset offset
+:fandoms
+#fed
+
+FandomSuggested
+
+#def RFandomsSuggestedGet admin_suggest_get_info
+int fandomId fandom_id
+#fed
+
+FandomInfo
+
+#def RFandomsAdminAccept admin_suggest_accept
+int fandomId fandom_id
+bool accepted accepted
+str comment comment
+#fed
+
+#def RFandomsGetInfo get_info
+int fandomId fandom_id
+int languageId fandom_lang
+#fed

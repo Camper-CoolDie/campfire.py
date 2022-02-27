@@ -1,0 +1,191 @@
+#def RCommentsGetAll get_comments
+int unitId unit_id
+timestamp offsetDate offset
+bool startFromBottom from_bottom
++old False
+:units
+#fed
+
+#def RCommentsCreate comment
+int unitId unit_id
+str text text
+int stickerId sticker
+resource voice
+resources images
+int quoteId reply
++watchPost True
+#fed
+
+#def RPublicationsKarmaAdd set_karma
+int unitId unit_id
+bool up positive
+bool anon anonim
++userLanguage 2
+#fed
+
+#def RPublicationsReactionAdd reaction_add
+int unitId unit_id
+int reactionIndex index
+#fed
+
+#def RPublicationsReactionRemove reaction_remove
+int unitId unit_id
+int reactionIndex index
+#fed
+
+#def RPublicationsReactionGetAccounts reaction_get
+int unitId unit_id
+int reactionIndex index
+:accounts
+#fed
+
+#def RPublicationsReport report
+int publicationId unit_id
+str comment comment
+#fed
+
+#def RPostRatesGetAll get_rates
+int unitId unit_id
+int offset offset
+:rates
+#fed
+
+#def RPublicationsHistoryGetAll get_history
+int unitId unit_id
+int offset offset
+:history
+#fed
+
+#def RPublicationsReportsGetAll get_reports
+int unitId unit_id
+int offset offset
+:reports
+#fed
+
+#def RPublicationsRemove remove
+int unitId unit_id
+#fed
+
+#def RFandomsModerationBlock moderator_block
+int unitId unit_id
+str comment comment
+bool blockLastUnits block_last_units
+deltastamp blockTime ban_time
+bool blockInApp block_in_app
++userLanguageId 2
+#fed
+
+#def RPublicationsAdminClearReports moderator_clear_reports
+int unitId unit_id
+#fed
+
+Post
+
+#def RPostGet get_post
+int unitId unit_id
+:unit
+#fed
+
+#def RPostFeedGetAll post_get_from_feed
+timestamp offsetDate offset
+bool importantOnly important
+list languagesId languages
+bool noKarmaCategory no_karma_category
+bool karmaCategory karma_category
+list categoriesId categories
++noSubscribers True
+:units
+#fed
+
+#def RPostFeedGetAllSubscribe post_get_from_subscribers
+timestamp offsetDate offset
+int categoryId category
+:units
+#fed
+
+#def RPostChangeFandom post_change_fandom
+int unitId unit_id
+int fandomId fandom_id
+int languageId fandom_lang
++comment ""
+#fed
+
+#def RPostToDrafts post_to_drafts
+int unitId unit_id
+#fed
+
+#def RPostClose post_close
+int unitId unit_id
+#fed
+
+#def RPostCloseNo post_no_close
+int unitId unit_id
+#fed
+
+#def RPostMakeMultilingual post_make_multilingual
+int unitId unit_id
+#fed
+
+#def RPostMakeMultilingualNot post_make_no_multilingual
+int unitId unit_id
+#fed
+
+#def RPostNotifyFollowers post_notify_followers
+int unitId unit_id
+#fed
+
+#def RPostPinAccount post_pin_account
+int unitId unit_id
+#fed
+
+#def RPostCloseModerator moderator_post_close
+int unitId unit_id
+str comment comment
+#fed
+
+#def RPostCloseNoModerator moderator_post_no_close
+int unitId unit_id
+str comment comment
+#fed
+
+#def RPostMakeMultilingualModeratorNot moderator_post_make_no_multilingual
+int unitId unit_id
+str comment comment
+#fed
+
+#def RFandomsModerationImportant moderator_post_important
+int unitId unit_id
+str comment comment
+bool important important
+#fed
+
+#def RFandomsModerationToDrafts moderator_post_to_drafts
+int unitId unit_id
+str comment comment
+#fed
+
+#def RPostPinFandom moderator_post_pin_fandom
+int unitId unit_id
+str comment comment
+int fandomId fandom_id
+int languageId fandom_lang
+#fed
+
+#def RFandomsAdminMakeModerator moderator_post_make_moderator
+int unitId unit_id
+str comment comment
+#fed
+
+Comment
+
+#def RCommentGet get_comment
+int parentPublicationId parent_id
+int commentId comment_id
+:comment
+#fed
+
+#def RCommentsChange comment_change
+int commentId comment_id
+str text text
+int quoteId reply
+#fed
