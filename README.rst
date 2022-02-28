@@ -2,8 +2,8 @@ Campfire API
 ==============
 
 .. image:: https://readthedocs.org/projects/campfirepy/badge/?version=latest
-:target: https://campfirepy.readthedocs.io/ru/latest/?badge=latest
-:alt: Documentation Status
+    :target: https://campfirepy.readthedocs.io/ru/latest/?badge=latest
+    :alt: Documentation Status
 
 Модуль, основанный на `CampfireAPI <https://github.com/ZeonXX/CampfireApi>`_ для соцсети Campfire.
 
